@@ -89,7 +89,6 @@ public class RegistrationServiceImpl implements RegistrationSevice{
     @Override
     public boolean seatsAvailability(String courseId) {
         long count=registrationRepository.findAllByCourseId(courseId).stream().filter(RegistrationDto->RegistrationDto.isAccepted()==true).count();
-        System.out.println(count+" +_+_");
         long max=courseRepository.findById(courseId).get().getMaxEmployee();
         // System.out.println(count+" "+max);
         return (count<max)?true:false;

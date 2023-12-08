@@ -2,7 +2,6 @@ package com.geektrust.backend.command;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.TreeMap;
 import com.geektrust.backend.dto.CourseDto;
 import com.geektrust.backend.exception.InvalidInputException;
 import com.geektrust.backend.service.CourseService;
@@ -35,17 +34,7 @@ public class AddCourseCommand implements ICommand{
             
     }
 
-    public CourseDto getCourseDto(List<String> tokens){
-        // CourseDto courseDto=CourseDto.builder()
-        //                     .courseName(tokens.get(1))
-        //                     .instructor(tokens.get(2))
-        //                     .date(tokens.get(3))
-        //                     .minEmployee(Integer.parseInt(tokens.get(4)))
-        //                     .maxEmployee(Integer.parseInt(tokens.get(5)))
-        //                     .isAllotted(false)
-        //                     .isCancelled(false)
-        //                     .build();
-        
+    public CourseDto getCourseDto(List<String> tokens){        
         CourseDto courseDto=new CourseDto( tokens.get(1), tokens.get(2), tokens.get(3), Integer.parseInt(tokens.get(4))
         , Integer.parseInt(tokens.get(5)), false, false, new ArrayList<>());
         return courseDto;                   

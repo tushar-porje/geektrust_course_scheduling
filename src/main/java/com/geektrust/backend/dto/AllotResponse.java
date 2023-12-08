@@ -1,6 +1,7 @@
 package com.geektrust.backend.dto;
 
-public class AllotResponse {
+
+public class AllotResponse implements Comparable<AllotResponse>{
     //<course-registration-id> <email-id> <course-offering-id> <course-name> <instructor> <date-in-ddmmyyyy> <status>
     private String regId;
     private String emailId;
@@ -125,6 +126,10 @@ public class AllotResponse {
     @Override
     public String toString() {
         return ""+regId+" "+emailId+" "+courseId+" "+courseName+" "+instructor+" "+date+" "+status+"";
+    }
+    @Override
+    public int compareTo(AllotResponse allotResponse) {
+        return this.regId.compareTo(allotResponse.regId);
     }
 
     

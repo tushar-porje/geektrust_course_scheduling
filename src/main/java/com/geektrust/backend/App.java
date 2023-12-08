@@ -17,11 +17,10 @@ public class App {
 	public static void main(String[] args) {
 		System.out.println("Welcome to Geektrust Backend Challenge!");
 		List<String> commandLineArgs = new LinkedList<>(Arrays.asList(args));
-        String expectedSequence = "sample_input/input2.txt";
+        String expectedSequence = "sample_input/input1.txt";
         String actualSequence = commandLineArgs.stream()
                 .map(a -> a.split("=")[1])
                 .collect(Collectors.joining("$"));
-		// System.out.println(actualSequence);
         if(expectedSequence.equals(actualSequence)){
             run(commandLineArgs);
         }
@@ -35,10 +34,8 @@ public class App {
 		try(BufferedReader reader = new BufferedReader(new FileReader(inputFile))) {
 			String line = reader.readLine();
 			while (line != null) {
-				// List<String> tokens = Arrays.asList(line.split("\\s+"));
 				List<String> tokens = Arrays.stream(line.split(" ")).collect(Collectors.toList());
 				commandInvoker.executeCommand(tokens.get(0),tokens);
-				// read next line
 				line = reader.readLine();
 			}
 			reader.close();

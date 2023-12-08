@@ -1,6 +1,7 @@
 package com.geektrust.backend.command;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import com.geektrust.backend.dto.AllotResponse;
 import com.geektrust.backend.exception.InvalidInputException;
 import com.geektrust.backend.service.CourseService;
@@ -17,7 +18,7 @@ public class AllotCommand implements ICommand{
     @Override
     public void execute(List<String> tokens) {
         if(tokens.size()==Constant.EXPECTED_ARGS_ALLOT){
-            List<AllotResponse> allotResponses = courseService.allot(tokens.get(1));
+            List<AllotResponse> allotResponses = courseService.allot(tokens.get(1)).stream().sorted().collect(Collectors.toList());
             for(AllotResponse allotResponse:allotResponses){
                 System.out.println(allotResponse.toString());
             }
