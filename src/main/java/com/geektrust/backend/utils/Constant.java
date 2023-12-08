@@ -1,7 +1,7 @@
 package com.geektrust.backend.utils;
 
 public class Constant {
-    public static final String COURSE_CANCELLED ="COURSE_CANCELLED";
+    public static final String COURSE_CANCELLED ="COURSE_CANCELED";
     public static final String ACCEPTED_MESSAGE = "ACCEPTED";
     public static final String REJECTED_MESSAGE = "REJECTED";
     public static final String CANCEL_ACCEPTED_MESSAGE = "CANCEL_ACCEPTED";
