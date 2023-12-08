@@ -62,65 +62,6 @@ public class AllotResponse implements Comparable<AllotResponse>{
     public void setStatus(String status) {
         this.status = status;
     }
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((courseId == null) ? 0 : courseId.hashCode());
-        result = prime * result + ((courseName == null) ? 0 : courseName.hashCode());
-        result = prime * result + ((date == null) ? 0 : date.hashCode());
-        result = prime * result + ((emailId == null) ? 0 : emailId.hashCode());
-        result = prime * result + ((instructor == null) ? 0 : instructor.hashCode());
-        result = prime * result + ((regId == null) ? 0 : regId.hashCode());
-        result = prime * result + ((status == null) ? 0 : status.hashCode());
-        return result;
-    }
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        AllotResponse other = (AllotResponse) obj;
-        if (courseId == null) {
-            if (other.courseId != null)
-                return false;
-        } else if (!courseId.equals(other.courseId))
-            return false;
-        if (courseName == null) {
-            if (other.courseName != null)
-                return false;
-        } else if (!courseName.equals(other.courseName))
-            return false;
-        if (date == null) {
-            if (other.date != null)
-                return false;
-        } else if (!date.equals(other.date))
-            return false;
-        if (emailId == null) {
-            if (other.emailId != null)
-                return false;
-        } else if (!emailId.equals(other.emailId))
-            return false;
-        if (instructor == null) {
-            if (other.instructor != null)
-                return false;
-        } else if (!instructor.equals(other.instructor))
-            return false;
-        if (regId == null) {
-            if (other.regId != null)
-                return false;
-        } else if (!regId.equals(other.regId))
-            return false;
-        if (status == null) {
-            if (other.status != null)
-                return false;
-        } else if (!status.equals(other.status))
-            return false;
-        return true;
-    }
 
     //<course-registration-id> <email-id> <course-offering-id> <course-name> <instructor> <date-in-ddmmyyyy> <status>
     @Override
