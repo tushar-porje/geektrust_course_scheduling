@@ -70,33 +70,11 @@ public class CourseRepositoryImpl implements CourseRepository{
     }
     
     CourseDto getCourseDto(Course course){
-        // return CourseDto.builder()
-        //         .courseId(course.getCourseId())
-        //         .courseName(course.getCourseName())
-        //         .instructor(course.getInstructor())
-        //         .date(course.getDate())
-        //         .minEmployee(course.getMinEmployee())
-        //         .maxEmployee(course.getMaxEmployee())
-        //         .isAllotted(course.isAllotted())
-        //         .isCancelled(course.isCancelled())
-        //         .build();
-
         return new CourseDto(course.getCourseId(), course.getCourseName(), course.getInstructor(), course.getDate(),
         course.getMinEmployee(), course.getMaxEmployee(), course.isAllotted(), course.isCancelled(),null);
     }
    
     Course getCourse(CourseDto courseDto){
-        // return Course.builder()
-        //         .courseId(courseDto.getCourseId())
-        //         .courseName(courseDto.getCourseName())
-        //         .instructor(courseDto.getInstructor())
-        //         .date(courseDto.getDate())
-        //         .minEmployee(courseDto.getMinEmployee())
-        //         .maxEmployee(courseDto.getMaxEmployee())
-        //         .isAllotted(courseDto.isAllotted())
-        //         .isCancelled(courseDto.isCancelled())
-        //         .build();
-
         return new Course(courseDto.getCourseId(), courseDto.getCourseName(), courseDto.getInstructor(), courseDto.getDate(),
         courseDto.getMinEmployee(), courseDto.getMaxEmployee(), courseDto.isAllotted(), courseDto.isCancelled(),courseDto.getRegisteredEmployees());
     }
