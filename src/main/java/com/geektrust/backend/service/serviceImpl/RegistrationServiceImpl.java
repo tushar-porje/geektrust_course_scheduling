@@ -59,7 +59,8 @@ public class RegistrationServiceImpl implements RegistrationSevice{
     }
     private String getCourseName(RegistrationDto registrationDto){
         String courseId=registrationDto.getCourseID();
-        return courseRepository.findById(courseId).get().getCourseName();
+        CourseDto courseDto=courseRepository.findById(courseId).get();
+        return courseDto.getCourseName();
     }
 
     private String getEmployeeName(RegistrationDto registrationDto){
@@ -89,7 +90,8 @@ public class RegistrationServiceImpl implements RegistrationSevice{
     @Override
     public boolean seatsAvailability(String courseId) {
         long count=registrationRepository.findAllByCourseId(courseId).stream().filter(RegistrationDto->RegistrationDto.isAccepted()==true).count();
-        long max=courseRepository.findById(courseId).get().getMaxEmployee();
+        CourseDto courseDto=courseRepository.findById(courseId).get();
+        long max=courseDto.getMaxEmployee();
         return (count<max)?true:false;
     }
 

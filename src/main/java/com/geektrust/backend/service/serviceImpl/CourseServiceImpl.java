@@ -42,7 +42,8 @@ public class CourseServiceImpl implements CourseService{
         //get allregistered employee by course and whose isaccepted is true
         //check if course is not cancelled and minEmployee condition is meet
         CourseDto courseDto= courseRepository.findById(courseId).orElseThrow(()->new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE));
-        List<RegistrationDto> allRegistration=registrationRepository.findAllByCourseId(courseId).stream().filter(registration->registration.isAccepted()==true).collect(Collectors.toList());
+        List<RegistrationDto> allRegistration=registrationRepository.findAllByCourseId(courseId).stream()
+                        .filter(registration->registration.isAccepted()==true).collect(Collectors.toList());
         String status="";
         List<AllotResponse> allotResponses=new ArrayList<>();
         List<EmployeeDto> employees=new ArrayList<>();
@@ -61,7 +62,9 @@ public class CourseServiceImpl implements CourseService{
                                                          courseDto.getDate(), status);
             allotResponses.add(allotResponse);
 
-            EmployeeDto employeeDto=employeeRepository.findById(registrationDto.getEmailAddress()).get();
+
+            String emailAddress=registrationDto.getEmailAddress();
+            EmployeeDto employeeDto=employeeRepository.findById(emailAddress).get();
             employees.add(employeeDto);
         }
         courseDto.setRegisteredEmployees(employees);

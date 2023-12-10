@@ -6,6 +6,7 @@ import java.util.Map;
 import com.geektrust.backend.exception.NoSuchCommandException;
 
 public class CommandInvoker {
+
     private static final Map<String, ICommand> commandMap = new HashMap<>();
 
     // Register the command into the HashMap

@@ -12,7 +12,15 @@ import com.geektrust.backend.utils.Constant;
 
 public class CourseRepositoryImpl implements CourseRepository{
 
-    private final HashMap<String,Course> courseMap=new HashMap<>();
+    private final HashMap<String,Course> courseMap;
+
+    public CourseRepositoryImpl() {
+        courseMap=new HashMap<>();
+    }
+
+    public CourseRepositoryImpl(HashMap<String, Course> courseMap) {
+        this.courseMap = courseMap;
+    }
 
     @Override
     public String save(CourseDto courseDto) {

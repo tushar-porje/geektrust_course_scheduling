@@ -10,8 +10,16 @@ import com.geektrust.backend.repository.EmployeeRepository;
 
 public class EmployeeRepositoryImpl implements EmployeeRepository{
 
-    HashMap<String,Employee> employeeMap=new HashMap<>();
+    private final HashMap<String,Employee> employeeMap;
+
+    public EmployeeRepositoryImpl() {
+        employeeMap=new HashMap<>();
+    }
     
+    public EmployeeRepositoryImpl(HashMap<String, Employee> employeeMap) {
+        this.employeeMap = employeeMap;
+    }
+
     @Override
     public String save(EmployeeDto employeeDto) {
         Employee employee=new Employee(employeeDto.getEmailAddress());

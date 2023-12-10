@@ -6,7 +6,7 @@ import com.geektrust.backend.service.EmployeeService;
 
 public class EmployeeServiceImpl implements EmployeeService{
 
-    EmployeeRepository employeeRepository;
+    private final EmployeeRepository employeeRepository;
 
     
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {

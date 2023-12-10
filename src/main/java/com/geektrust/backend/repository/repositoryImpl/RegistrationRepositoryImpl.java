@@ -10,7 +10,15 @@ import com.geektrust.backend.repository.RegistrationRepository;
 
 public class RegistrationRepositoryImpl implements RegistrationRepository{
 
-    private final HashMap<String,Registration> registrationMap=new HashMap<>();
+    private final HashMap<String,Registration> registrationMap;
+
+    public RegistrationRepositoryImpl() {
+        registrationMap=new HashMap<>();
+    }
+
+    public RegistrationRepositoryImpl(HashMap<String, Registration> registrationMap) {
+        this.registrationMap = registrationMap;
+    }
 
     @Override
     public String save(RegistrationDto registrationDto) {
