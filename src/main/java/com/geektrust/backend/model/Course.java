@@ -1,10 +1,9 @@
 package com.geektrust.backend.model;
 
-import lombok.Builder;
 import java.util.List;
 import com.geektrust.backend.dto.EmployeeDto;
 
-@Builder
+
 public class Course {
     private final String courseId;
     private final String courseName;

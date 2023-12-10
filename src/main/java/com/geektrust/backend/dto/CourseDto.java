@@ -1,9 +1,8 @@
 package com.geektrust.backend.dto;
 
-import lombok.Builder;
 import java.util.List;
 
-@Builder
+
 public class CourseDto {
     private String courseId;
     private final String courseName;
