@@ -22,8 +22,7 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
 
     @Override
     public List<EmployeeDto> findAll() {
-        List<Employee> employees=new ArrayList<>(employeeMap.values());
-        return employees.stream().map(employee->getEmployeeDto(employee)).collect(Collectors.toList());
+        return this.employeeMap.values().stream().map(employee->getEmployeeDto(employee)).collect(Collectors.toList());
     }
 
     @Override
@@ -33,21 +32,17 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
 
     @Override
     public boolean existsById(String id) {
-        Optional<EmployeeDto> employee = findById(id);
-        return employee.isPresent();
+        return employeeMap.containsKey(id);
     }
 
     @Override
-    public void delete(EmployeeDto entity) {
-        if (existsById(entity.getEmailAddress()))
-            employeeMap.remove(entity.getEmailAddress());
+    public void delete(EmployeeDto employeeDto) {
+        employeeMap.entrySet().removeIf(a -> a.getValue().equals(getEmployee(employeeDto))); 
     }
 
     @Override
     public void deleteById(String id) {
-        if (existsById(id))
-            employeeMap.remove(id);
-        
+        employeeMap.remove(id);
     }
 
     @Override
@@ -55,7 +50,13 @@ public class EmployeeRepositoryImpl implements EmployeeRepository{
         return employeeMap.size();
     }
     
-    private EmployeeDto getEmployeeDto(Employee employee){
+    @Override
+    public EmployeeDto getEmployeeDto(Employee employee){
         return new EmployeeDto(employee.getName(), employee.getEmailAddress());
+    }
+
+    @Override
+    public Employee getEmployee(EmployeeDto employeeDto){
+        return new Employee(employeeDto.getEmailAddress());
     }
 }

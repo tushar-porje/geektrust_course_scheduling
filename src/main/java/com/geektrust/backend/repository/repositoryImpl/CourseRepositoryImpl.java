@@ -3,6 +3,7 @@ package com.geektrust.backend.repository.repositoryImpl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import com.geektrust.backend.dto.CourseDto;
 import com.geektrust.backend.exception.InvalidInputException;
 import com.geektrust.backend.model.Course;
@@ -25,56 +26,43 @@ public class CourseRepositoryImpl implements CourseRepository{
 
     @Override
     public List<CourseDto> findAll() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.courseMap.values().stream().map(course->getCourseDto(course)).collect(Collectors.toList());
     }
 
     @Override
     public Optional<CourseDto> findById(String id) {
-        if(id!=null){
-            CourseDto courseDto=getCourseDto(courseMap.get(id));
-            return Optional.of(courseDto);
-        }else{
-            return Optional.empty();
-        }
+        CourseDto courseDto=getCourseDto(courseMap.get(id));
+        return Optional.ofNullable(courseDto);
     }
 
     @Override
     public boolean existsById(String id) {
-        // TODO Auto-generated method stub
-        return false;
+        return courseMap.containsKey(id);//.entrySet().stream().map(a -> a.getKey()).anyMatch(a->a.contains(id));
     }
 
     @Override
-    public void delete(CourseDto entity) {
-        // TODO Auto-generated method stub
-        
+    public void delete(CourseDto courseDto) {
+        courseMap.entrySet().removeIf(a -> a.getValue().equals(getCourse(courseDto)));        
     }
 
     @Override
     public void deleteById(String id) {
-        // TODO Auto-generated method stub
-        
+        courseMap.remove(id);        
     }
 
     @Override
     public long count() {
-        // TODO Auto-generated method stub
-        return 0;
+        return courseMap.size();
     }
 
     @Override
-    public CourseDto findByCourseId(String courseId) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
-    CourseDto getCourseDto(Course course){
+    public CourseDto getCourseDto(Course course){
         return new CourseDto(course.getCourseId(), course.getCourseName(), course.getInstructor(), course.getDate(),
-        course.getMinEmployee(), course.getMaxEmployee(), course.isAllotted(), course.isCancelled(),null);
+        course.getMinEmployee(), course.getMaxEmployee(), course.isAllotted(), course.isCancelled(),course.getRegisteredEmployees());
     }
    
-    Course getCourse(CourseDto courseDto){
+    @Override
+    public Course getCourse(CourseDto courseDto){
         return new Course(courseDto.getCourseId(), courseDto.getCourseName(), courseDto.getInstructor(), courseDto.getDate(),
         courseDto.getMinEmployee(), courseDto.getMaxEmployee(), courseDto.isAllotted(), courseDto.isCancelled(),courseDto.getRegisteredEmployees());
     }

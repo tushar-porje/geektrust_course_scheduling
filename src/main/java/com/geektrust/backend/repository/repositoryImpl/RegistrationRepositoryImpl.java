@@ -15,7 +15,6 @@ public class RegistrationRepositoryImpl implements RegistrationRepository{
 
     @Override
     public String save(RegistrationDto registrationDto) {
-        // registrationDto.setAccepted(true);
         Registration registration=getRegistration(registrationDto);
         registrationMap.put(registration.getRegID(), registration);
         return registration.getRegID();
@@ -23,33 +22,27 @@ public class RegistrationRepositoryImpl implements RegistrationRepository{
 
     @Override
     public List<RegistrationDto> findAll() {
-        List<Registration> allRegistration=new ArrayList<>(registrationMap.values());
-        return allRegistration.stream().map((registration) -> getRegistrationDto(registration)).collect(Collectors.toList());
+        return this.registrationMap.values().stream().map(registration->getRegistrationDto(registration)).collect(Collectors.toList());
     }
 
     @Override
     public Optional<RegistrationDto> findById(String id) {
-        Registration registration=registrationMap.get(id);
-        RegistrationDto registrationDto=getRegistrationDto(registration);
-        return Optional.ofNullable(registrationDto);
+        return Optional.of(getRegistrationDto(registrationMap.get(id)));
     }
 
     @Override
     public boolean existsById(String id) {
-        Optional<RegistrationDto> registrationDto = findById(id);
-        return registrationDto.isPresent();
+        return registrationMap.containsKey(id);
     }
 
     @Override
-    public void delete(RegistrationDto id) {
-        if (existsById(id.getRegID()))
-            registrationMap.remove(id.getRegID());        
+    public void delete(RegistrationDto registrationDto) {
+        registrationMap.entrySet().removeIf(a -> a.getValue().equals(getRegistration(registrationDto)));        
     }
 
     @Override
     public void deleteById(String id) {
-        if (existsById(id))
-            registrationMap.remove(id);
+        registrationMap.remove(id);
     }
 
     @Override
@@ -60,16 +53,16 @@ public class RegistrationRepositoryImpl implements RegistrationRepository{
     @Override
     public List<RegistrationDto> findAllByCourseId(String courseId) {
         List<RegistrationDto> allRegistrationDto = findAll(); 
-        List<RegistrationDto> allRegistrationByCourse = allRegistrationDto.stream().filter(registrationDto -> registrationDto.getCourseID().equals(courseId)).collect(Collectors.toList());
-        
-        return allRegistrationByCourse;
+        return allRegistrationDto.stream().filter(registrationDto -> registrationDto.getCourseID().equals(courseId)).collect(Collectors.toList());
     }
 
-    private Registration getRegistration(RegistrationDto registrationDto){
-            return new Registration(registrationDto.getRegID(), registrationDto.getEmailAddress(), registrationDto.getCourseID(),registrationDto.isAccepted());
+    @Override
+    public Registration getRegistration(RegistrationDto registrationDto){
+        return new Registration(registrationDto.getRegID(), registrationDto.getEmailAddress(), registrationDto.getCourseID(),registrationDto.isAccepted());
     }
-   
-    private RegistrationDto getRegistrationDto(Registration registration){
-            return new RegistrationDto(registration.getRegID(), registration.getEmailAddress(), registration.getCourseID(), registration.isAccepted());
+ 
+    @Override
+    public RegistrationDto getRegistrationDto(Registration registration){
+        return new RegistrationDto(registration.getRegID(), registration.getEmailAddress(), registration.getCourseID(), registration.isAccepted());
     }
 }

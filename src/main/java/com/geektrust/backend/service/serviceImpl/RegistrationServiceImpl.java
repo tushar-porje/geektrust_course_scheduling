@@ -3,7 +3,10 @@ package com.geektrust.backend.service.serviceImpl;
 import com.geektrust.backend.dto.CourseDto;
 import com.geektrust.backend.dto.EmployeeDto;
 import com.geektrust.backend.dto.RegistrationDto;
+import com.geektrust.backend.exception.CourseAlreadyAllotedException;
+import com.geektrust.backend.exception.CourseCanceledException;
 import com.geektrust.backend.exception.InvalidInputException;
+import com.geektrust.backend.exception.RegistrationCancelException;
 import com.geektrust.backend.model.Employee;
 import com.geektrust.backend.repository.CourseRepository;
 import com.geektrust.backend.repository.EmployeeRepository;
@@ -32,16 +35,15 @@ public class RegistrationServiceImpl implements RegistrationSevice{
         if(!EmailValidator.validate(registrationDto.getEmailAddress())){
             throw new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE);
         }
-        if(isCoursePresentAndNotAlloted(registrationDto.getCourseID()) && seatsAvailability(registrationDto.getCourseID())){
-            // boolean b = employeeRepository.existsById(registrationDto.getEmailAddress());
-            // if (!b) {
-                employeeRepository.save(new EmployeeDto(registrationDto.getEmailAddress()));
-            // }
+        validateCourse(registrationDto.getCourseID());
+        if(seatsAvailability(registrationDto.getCourseID())){
+            boolean b = employeeRepository.existsById(registrationDto.getEmailAddress());
+            if(!b) employeeRepository.save(new EmployeeDto(registrationDto.getEmailAddress()));
             // if(!alreadyRegistered(registrationDto)){
-                registrationDto.setRegID(getRegistrationId(registrationDto));
-                registrationDto.setAccepted(true);
-                String regId = registrationRepository.save(registrationDto);
-                return regId;
+            registrationDto.setRegID(getRegistrationId(registrationDto));
+            registrationDto.setAccepted(true);
+            String regId = registrationRepository.save(registrationDto);
+            return regId;
             // }else{
             //     throw new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE);
             // }
@@ -76,13 +78,11 @@ public class RegistrationServiceImpl implements RegistrationSevice{
 
 
     @Override
-    public boolean isCoursePresentAndNotAlloted(String courseId){
-        CourseDto courseDto=courseRepository.findById(courseId).orElse(null);
-        if(courseDto!=null){
-            return (courseDto.isAllotted()==true)?false:true;
-        }else{
-            return false;
-        }
+    public boolean validateCourse(String courseId){
+        CourseDto courseDto=courseRepository.findById(courseId).orElseThrow(()->new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE));
+        if(courseDto.isAllotted()) throw new CourseAlreadyAllotedException(Constant.COURSE_ALREADY_ALLOTED);
+        if(courseDto.isCancelled()) throw new CourseCanceledException(Constant.COURSE_CANCELLED);
+        return true;
     }
 
 
@@ -90,21 +90,20 @@ public class RegistrationServiceImpl implements RegistrationSevice{
     public boolean seatsAvailability(String courseId) {
         long count=registrationRepository.findAllByCourseId(courseId).stream().filter(RegistrationDto->RegistrationDto.isAccepted()==true).count();
         long max=courseRepository.findById(courseId).get().getMaxEmployee();
-        // System.out.println(count+" "+max);
         return (count<max)?true:false;
     }
 
 
     @Override
-    public String cancelRegistration(String RegId) throws InvalidInputException{
-        RegistrationDto registrationDto=registrationRepository.findById(RegId).orElseThrow(()-> new InvalidInputException(Constant.CANCEL_REJECTED_MESSAGE));
+    public String cancelRegistration(String RegId) throws InvalidInputException , RegistrationCancelException{
+        RegistrationDto registrationDto=registrationRepository.findById(RegId).orElseThrow(()-> new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE));
         CourseDto courseDto=courseRepository.findById(registrationDto.getCourseID()).get();
         if(courseDto.isAllotted()!=true ){
             registrationDto.setAccepted(false);
             registrationRepository.save(registrationDto);
             return registrationDto.getRegID();
         }else{
-            throw new InvalidInputException(Constant.CANCEL_REJECTED_MESSAGE);
+            throw new RegistrationCancelException(Constant.CANCEL_REJECTED_MESSAGE);
         }
     }
 

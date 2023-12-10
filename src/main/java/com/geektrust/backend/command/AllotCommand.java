@@ -17,14 +17,20 @@ public class AllotCommand implements ICommand{
 
     @Override
     public void execute(List<String> tokens) {
-        if(tokens.size()==Constant.EXPECTED_ARGS_ALLOT){
-            List<AllotResponse> allotResponses = courseService.allot(tokens.get(1)).stream().sorted().collect(Collectors.toList());
-            for(AllotResponse allotResponse:allotResponses){
-                System.out.println(allotResponse.toString());
+        try {
+            if(tokens.size()==Constant.EXPECTED_ARGS_ALLOT){
+                List<AllotResponse> allotResponses = courseService.allot(tokens.get(1)).stream().sorted().collect(Collectors.toList());
+                for(AllotResponse allotResponse:allotResponses){
+                    System.out.println(allotResponse.toString());
+                }
+            }else{
+                throw new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE);
             }
-        }else{
-            throw new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+
+        
         
     }
 

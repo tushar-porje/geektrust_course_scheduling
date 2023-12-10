@@ -7,6 +7,7 @@ import com.geektrust.backend.dto.AllotResponse;
 import com.geektrust.backend.dto.CourseDto;
 import com.geektrust.backend.dto.EmployeeDto;
 import com.geektrust.backend.dto.RegistrationDto;
+import com.geektrust.backend.exception.CourseCanceledException;
 import com.geektrust.backend.exception.InvalidInputException;
 import com.geektrust.backend.repository.CourseRepository;
 import com.geektrust.backend.repository.EmployeeRepository;
@@ -53,6 +54,8 @@ public class CourseServiceImpl implements CourseService{
             courseDto.setAllotted(false);
             courseDto.setCancelled(true);
             status=Constant.COURSE_CANCELLED;
+            courseRepository.save(courseDto);
+            throw new CourseCanceledException(Constant.COURSE_CANCELLED);
         }
         for(RegistrationDto registrationDto:allRegistration){
             AllotResponse allotResponse=new AllotResponse(registrationDto.getRegID(), registrationDto.getEmailAddress(),
