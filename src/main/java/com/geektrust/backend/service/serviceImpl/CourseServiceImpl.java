@@ -7,7 +7,6 @@ import com.geektrust.backend.dto.AllotResponse;
 import com.geektrust.backend.dto.CourseDto;
 import com.geektrust.backend.dto.EmployeeDto;
 import com.geektrust.backend.dto.RegistrationDto;
-import com.geektrust.backend.exception.CourseCanceledException;
 import com.geektrust.backend.exception.InvalidInputException;
 import com.geektrust.backend.repository.CourseRepository;
 import com.geektrust.backend.repository.EmployeeRepository;
