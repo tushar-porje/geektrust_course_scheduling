@@ -9,6 +9,8 @@ public class Employee {
 
     private final String emailAddress;
 
+    private String courseId;
+
     public String getName() {
         return name;
     }

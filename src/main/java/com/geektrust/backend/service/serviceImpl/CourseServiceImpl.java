@@ -54,8 +54,6 @@ public class CourseServiceImpl implements CourseService{
             courseDto.setAllotted(false);
             courseDto.setCancelled(true);
             status=Constant.COURSE_CANCELLED;
-            courseRepository.save(courseDto);
-            throw new CourseCanceledException(Constant.COURSE_CANCELLED);
         }
         for(RegistrationDto registrationDto:allRegistration){
             AllotResponse allotResponse=new AllotResponse(registrationDto.getRegID(), registrationDto.getEmailAddress(),
