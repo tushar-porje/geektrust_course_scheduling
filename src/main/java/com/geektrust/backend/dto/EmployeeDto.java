@@ -1,23 +1,18 @@
 package com.geektrust.backend.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Data
 @Setter
 @Getter
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class EmployeeDto {
 
     private String name;
-    private final String emailAddress;
-    
-    public EmployeeDto(String name, String emailAddress) {
-        this(emailAddress);
-        this.name = name;
-    }
-    public EmployeeDto(String emailAddress) {
-        this.emailAddress = emailAddress;
-    }
-    
+    private final String emailAddress;    
 }

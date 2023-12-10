@@ -1,7 +1,10 @@
 package com.geektrust.backend.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import java.util.List;
 
@@ -9,6 +12,8 @@ import java.util.List;
 @Data
 @Getter
 @Setter
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class CourseDto {
     private String courseId;
     private final String courseName;
@@ -16,28 +21,10 @@ public class CourseDto {
     private final String date;
     private final int minEmployee;
     private final int maxEmployee;
+    @NonNull
     private boolean isAllotted;
+    @NonNull
     private boolean isCancelled;
-    private List<EmployeeDto> registeredEmployees;
-
-    public CourseDto( String courseName, String instructor, String date,
-            int minEmployee, int maxEmployee, boolean isAllotted, boolean isCancelled,
-            List<EmployeeDto> registeredEmployees) {
-        this.courseName = courseName;
-        this.instructor = instructor;
-        this.date = date;
-        this.minEmployee = minEmployee;
-        this.maxEmployee = maxEmployee;
-        this.isAllotted = isAllotted;
-        this.isCancelled = isCancelled;
-        this.registeredEmployees = registeredEmployees;
-    }
-
-    public CourseDto(String courseId, String courseName, String instructor, String date,
-            int minEmployee, int maxEmployee, boolean isAllotted, boolean isCancelled,
-            List<EmployeeDto> registeredEmployees) {
-        this(courseName,instructor,date,minEmployee,maxEmployee,isAllotted,isCancelled,registeredEmployees);
-        this.courseId = courseId;
-    }
-    
+    @NonNull
+    private List<EmployeeDto> registeredEmployees;   
 }
