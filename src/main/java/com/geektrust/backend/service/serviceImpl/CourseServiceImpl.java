@@ -30,7 +30,6 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public String createCourse(CourseDto courseDto) {
-        //it will return courseId that is created in repo layer for the course object
         return courseRepository.save(courseDto);
     }
 
@@ -47,20 +46,15 @@ public class CourseServiceImpl implements CourseService{
         List<AllotResponse> allotResponses=new ArrayList<>();
         List<EmployeeDto> employees=new ArrayList<>();
         if(isValidAllotation(courseDto,allRegistration.size())){
-            courseDto.setAllotted(true);
-            courseDto.setCancelled(false);
             status=Constant.ALLOT_COURSE_MESSAGE;
+            courseDto=getRequiredCourseDto(courseDto,true,false);
         }else{
-            courseDto.setAllotted(false);
-            courseDto.setCancelled(true);
             status=Constant.COURSE_CANCELLED;
+            courseDto=getRequiredCourseDto(courseDto,false,true);
         }
         for(RegistrationDto registrationDto:allRegistration){
-            AllotResponse allotResponse=new AllotResponse(registrationDto.getRegID(), registrationDto.getEmailAddress(),
-                                                         courseDto.getCourseId(), courseDto.getCourseName(), courseDto.getInstructor(), 
-                                                         courseDto.getDate(), status);
+            AllotResponse allotResponse=getAllotedResponse(registrationDto,courseDto,status);                                                         
             allotResponses.add(allotResponse);
-
 
             String emailAddress=registrationDto.getEmailAddress();
             EmployeeDto employeeDto=employeeRepository.findById(emailAddress).get();
@@ -72,14 +66,21 @@ public class CourseServiceImpl implements CourseService{
         return allotResponses;
     }
 
-    EmployeeDto getEmployee(String emailId){
-        return employeeRepository.findById(emailId).get();
+    private AllotResponse getAllotedResponse(RegistrationDto registrationDto,CourseDto courseDto,String status) {
+        return new AllotResponse(registrationDto.getRegID(), registrationDto.getEmailAddress(),
+        courseDto.getCourseId(), courseDto.getCourseName(), courseDto.getInstructor(),
+        courseDto.getDate(), status);
     }
 
+
+    private CourseDto getRequiredCourseDto(CourseDto courseDto, boolean isAlloted, boolean isCancelled) {
+        courseDto.setAllotted(isAlloted);
+        courseDto.setCancelled(isCancelled);
+        return courseDto;
+    }
 
     private boolean isValidAllotation(CourseDto courseDto,long totalEmployee) {
         return (courseDto.isCancelled()==false && courseDto.getMinEmployee()<=totalEmployee)?true:false;
     }
 
-    
 }
