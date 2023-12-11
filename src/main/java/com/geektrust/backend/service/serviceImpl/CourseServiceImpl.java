@@ -42,28 +42,51 @@ public class CourseServiceImpl implements CourseService{
         CourseDto courseDto= courseRepository.findById(courseId).orElseThrow(()->new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE));
         List<RegistrationDto> allAcceptedRegistration=registrationRepository.findAllByCourseId(courseId).stream()
                         .filter(registration->registration.isAccepted()==true).collect(Collectors.toList());
-        String status="";
+        
+        String status = getStatus(courseDto, allAcceptedRegistration.size());
         List<AllotResponse> allotResponses=new ArrayList<>();
         List<EmployeeDto> employees=new ArrayList<>();
-        if(isValidAllotation(courseDto,allAcceptedRegistration.size())){
-            status=Constant.ALLOT_COURSE_MESSAGE;
-            courseDto=getRequiredCourseDto(courseDto,true,false);
-        }else{
-            status=Constant.COURSE_CANCELLED;
-            courseDto=getRequiredCourseDto(courseDto,false,true);
-        }
+
+        courseDto = updateCourseStatus(courseDto, status);
+        // if(isValidAllotation(courseDto,allAcceptedRegistration.size())){
+        //     status=Constant.ALLOT_COURSE_MESSAGE;
+        //     courseDto=getRequiredCourseDto(courseDto,true,false);
+        // }else{
+        //     status=Constant.COURSE_CANCELLED;
+        //     courseDto=getRequiredCourseDto(courseDto,false,true);
+        // }
+        
         for(RegistrationDto registrationDto:allAcceptedRegistration){
             AllotResponse allotResponse=getAllotedResponse(registrationDto,courseDto,status);                                                         
             allotResponses.add(allotResponse);
 
-            String emailAddress=registrationDto.getEmailAddress();
-            EmployeeDto employeeDto=employeeRepository.findById(emailAddress).get();
+            // String emailAddress=registrationDto.getEmailAddress();
+            // EmployeeDto employeeDto=employeeRepository.findById(emailAddress).get();
+            EmployeeDto employeeDto = getEmployeeDetails(registrationDto.getEmailAddress());
             employees.add(employeeDto);
         }
         courseDto.setRegisteredEmployees(employees);
-        courseRepository.save(courseDto);
 
+        courseRepository.save(courseDto);
         return allotResponses;
+    }
+
+    private String getStatus(CourseDto courseDto, int totalAcceptedRegistrations) {
+        if (!courseDto.isCancelled() && courseDto.getMinEmployee() <= totalAcceptedRegistrations) {
+            return Constant.ALLOT_COURSE_MESSAGE;
+        } else {
+            return Constant.COURSE_CANCELLED;
+        }
+    }
+
+    private CourseDto updateCourseStatus(CourseDto courseDto, String status) {
+        courseDto.setAllotted(status.equals(Constant.ALLOT_COURSE_MESSAGE));
+        courseDto.setCancelled(status.equals(Constant.COURSE_CANCELLED));
+        return courseDto;
+    }
+
+    private EmployeeDto getEmployeeDetails(String emailAddress) {
+        return employeeRepository.findById(emailAddress).orElse(null);
     }
 
     private AllotResponse getAllotedResponse(RegistrationDto registrationDto,CourseDto courseDto,String status) {
@@ -73,14 +96,14 @@ public class CourseServiceImpl implements CourseService{
     }
 
 
-    private CourseDto getRequiredCourseDto(CourseDto courseDto, boolean isAlloted, boolean isCancelled) {
-        courseDto.setAllotted(isAlloted);
-        courseDto.setCancelled(isCancelled);
-        return courseDto;
-    }
+    // private CourseDto getRequiredCourseDto(CourseDto courseDto, boolean isAlloted, boolean isCancelled) {
+    //     courseDto.setAllotted(isAlloted);
+    //     courseDto.setCancelled(isCancelled);
+    //     return courseDto;
+    // }
 
-    private boolean isValidAllotation(CourseDto courseDto,long totalEmployee) {
-        return (courseDto.isCancelled()==false && courseDto.getMinEmployee()<=totalEmployee)?true:false;
-    }
+    // private boolean isValidAllotation(CourseDto courseDto,long totalEmployee) {
+    //     return (courseDto.isCancelled()==false && courseDto.getMinEmployee()<=totalEmployee)?true:false;
+    // }
 
 }
