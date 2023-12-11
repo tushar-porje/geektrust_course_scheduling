@@ -49,10 +49,12 @@ repositories {
 
 dependencies {
 	testCompile 'org.mockito:mockito-junit-jupiter:3.3.3'
-	testCompile 'org.junit.jupiter:junit-jupiter:5.4.2'
+	// testCompile 'org.junit.jupiter:junit-jupiter:5.4.2'
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
-    
+
+    testImplementation('org.junit.jupiter:junit-jupiter-api:5.8.2')
+    testRuntimeOnly('org.junit.jupiter:junit-jupiter-engine:5.8.2') 
 }
 
 test { ///Please do not change this

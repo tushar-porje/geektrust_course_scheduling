@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import com.geektrust.backend.dto.CourseDto;
-import com.geektrust.backend.exception.InvalidInputException;
 import com.geektrust.backend.model.Course;
 import com.geektrust.backend.repository.CourseRepository;
-import com.geektrust.backend.utils.Constant;
 
 public class CourseRepositoryImpl implements CourseRepository{
 
@@ -25,9 +23,7 @@ public class CourseRepositoryImpl implements CourseRepository{
     @Override
     public String save(CourseDto courseDto) {
         courseDto.setCourseId("OFFERING-" + courseDto.getCourseName() + "-" + courseDto.getInstructor()); 
-        Course course=getCourse(courseDto);
-        if(course.getCourseId()==null) throw new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE);
-        
+        Course course=getCourse(courseDto);        
         courseMap.put(course.getCourseId(), course);
         return course.getCourseId();
     }

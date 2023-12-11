@@ -22,8 +22,7 @@ public class RegistrationServiceImpl implements RegistrationSevice{
     private final RegistrationRepository registrationRepository;
 
 
-    public RegistrationServiceImpl(CourseRepository courseRepository,
-            EmployeeRepository employeeRepository, RegistrationRepository registrationRepository) {
+    public RegistrationServiceImpl(CourseRepository courseRepository,EmployeeRepository employeeRepository, RegistrationRepository registrationRepository) {
         this.courseRepository = courseRepository;
         this.employeeRepository = employeeRepository;
         this.registrationRepository = registrationRepository;

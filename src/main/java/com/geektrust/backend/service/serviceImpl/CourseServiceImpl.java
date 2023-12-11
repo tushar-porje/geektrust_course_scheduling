@@ -40,19 +40,19 @@ public class CourseServiceImpl implements CourseService{
         //get allregistered employee by course and whose isaccepted is true
         //check if course is not cancelled and minEmployee condition is meet
         CourseDto courseDto= courseRepository.findById(courseId).orElseThrow(()->new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE));
-        List<RegistrationDto> allRegistration=registrationRepository.findAllByCourseId(courseId).stream()
+        List<RegistrationDto> allAcceptedRegistration=registrationRepository.findAllByCourseId(courseId).stream()
                         .filter(registration->registration.isAccepted()==true).collect(Collectors.toList());
         String status="";
         List<AllotResponse> allotResponses=new ArrayList<>();
         List<EmployeeDto> employees=new ArrayList<>();
-        if(isValidAllotation(courseDto,allRegistration.size())){
+        if(isValidAllotation(courseDto,allAcceptedRegistration.size())){
             status=Constant.ALLOT_COURSE_MESSAGE;
             courseDto=getRequiredCourseDto(courseDto,true,false);
         }else{
             status=Constant.COURSE_CANCELLED;
             courseDto=getRequiredCourseDto(courseDto,false,true);
         }
-        for(RegistrationDto registrationDto:allRegistration){
+        for(RegistrationDto registrationDto:allAcceptedRegistration){
             AllotResponse allotResponse=getAllotedResponse(registrationDto,courseDto,status);                                                         
             allotResponses.add(allotResponse);
 
