@@ -85,18 +85,14 @@ public class RegistrationServiceImpl implements RegistrationSevice{
         return getNameFromEmployeeRepository(registrationDto.getEmailAddress());
     }
     
-
-    @Override
-    public boolean validateCourse(String courseId){
+    private boolean validateCourse(String courseId){
         CourseDto courseDto=courseRepository.findById(courseId).orElseThrow(()->new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE));
         if(courseDto.isAllotted()) throw new CourseAlreadyAllotedException(Constant.COURSE_ALREADY_ALLOTED);
         if(courseDto.isCancelled()) throw new CourseCanceledException(Constant.COURSE_CANCELLED);
         return true;
     }
 
-
-    @Override
-    public boolean seatsAvailability(String courseId) {
+    private boolean seatsAvailability(String courseId) {
         long count=registrationRepository.findAllByCourseId(courseId).stream().filter(RegistrationDto->RegistrationDto.isAccepted()==true).count();
         CourseDto courseDto=courseRepository.findById(courseId).get();
         long max=courseDto.getMaxEmployee();
