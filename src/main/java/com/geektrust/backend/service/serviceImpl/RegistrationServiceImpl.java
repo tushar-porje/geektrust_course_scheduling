@@ -56,26 +56,35 @@ public class RegistrationServiceImpl implements RegistrationSevice{
         String employeeName=getEmployeeName(registrationDto);
         return "REG-COURSE-"+employeeName+"-"+courseName+"";
     }
-    private String getCourseName(RegistrationDto registrationDto){
-        String courseId=registrationDto.getCourseID();
-        CourseDto courseDto=courseRepository.findById(courseId).get();
-        return courseDto.getCourseName();
-    }
-
-    private String getEmployeeName(RegistrationDto registrationDto){
-        String emailAddress=registrationDto.getEmailAddress();
-        return new Employee(emailAddress).getName();
-    }
-
-    // private boolean alreadyRegistered(RegistrationDto registrationDto) {
-    //     RegistrationDto RegistrationDto=registrationRepository.findById(getRegistrationId(registrationDto)).orElseThrow(()-> new InvalidInputException(Constant.CANCEL_REJECTED_MESSAGE));
-    //     if (RegistrationDto.isAccepted()==false) {
-    //         return true;
-    //     } else {
-    //         return false;
-    //     }
+    // private String getCourseName(RegistrationDto registrationDto){
+    //     String courseId=registrationDto.getCourseID();
+    //     CourseDto courseDto=courseRepository.findById(courseId).get();
+    //     return courseDto.getCourseName();
     // }
 
+    // private String getEmployeeName(RegistrationDto registrationDto){
+    //     String emailAddress=registrationDto.getEmailAddress();
+    //     return new Employee(emailAddress).getName();
+    // }
+
+    private String getNameFromCourseRepository(String courseId) {
+        CourseDto courseDto = courseRepository.findById(courseId).orElseThrow(() -> new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE));
+        return courseDto.getCourseName();
+    }
+    
+    private String getNameFromEmployeeRepository(String emailAddress) {
+        EmployeeDto employeeDto = employeeRepository.findById(emailAddress).orElseThrow(() -> new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE));
+        return new Employee(employeeDto.getEmailAddress()).getName();
+    }
+    
+    private String getCourseName(RegistrationDto registrationDto) {
+        return getNameFromCourseRepository(registrationDto.getCourseID());
+    }
+    
+    private String getEmployeeName(RegistrationDto registrationDto) {
+        return getNameFromEmployeeRepository(registrationDto.getEmailAddress());
+    }
+    
 
     @Override
     public boolean validateCourse(String courseId){
