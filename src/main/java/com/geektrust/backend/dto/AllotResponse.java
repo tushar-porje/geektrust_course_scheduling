@@ -2,12 +2,8 @@ package com.geektrust.backend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
-@Getter
-@Setter
 @AllArgsConstructor
 public class AllotResponse implements Comparable<AllotResponse>{
     //<course-registration-id> <email-id> <course-offering-id> <course-name> <instructor> <date-in-ddmmyyyy> <status>

@@ -1,15 +1,11 @@
 package com.geektrust.backend.model;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import com.geektrust.backend.exception.InvalidInputException;
 import com.geektrust.backend.utils.Constant;
 import com.geektrust.backend.utils.EmailValidator;
 
 @Data
-@Getter
-@Setter
 public class Employee {
     private final String name;
 
