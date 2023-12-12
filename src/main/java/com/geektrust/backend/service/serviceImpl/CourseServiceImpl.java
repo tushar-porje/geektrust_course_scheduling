@@ -20,19 +20,16 @@ public class CourseServiceImpl implements CourseService{
     private final RegistrationRepository registrationRepository;
     private final EmployeeRepository employeeRepository;
 
-    
     public CourseServiceImpl(CourseRepository courseRepository,RegistrationRepository registrationRepository,EmployeeRepository employeeRepository) {
         this.courseRepository = courseRepository;
         this.registrationRepository=registrationRepository;
         this.employeeRepository=employeeRepository;
     }
 
-
     @Override
     public String createCourse(CourseDto courseDto) {
         return courseRepository.save(courseDto);
     }
-
 
     @Override
     public List<AllotResponse> allot(String courseId) {
@@ -48,20 +45,11 @@ public class CourseServiceImpl implements CourseService{
         List<EmployeeDto> employees=new ArrayList<>();
 
         courseDto = updateCourseStatus(courseDto, status);
-        // if(isValidAllotation(courseDto,allAcceptedRegistration.size())){
-        //     status=Constant.ALLOT_COURSE_MESSAGE;
-        //     courseDto=getRequiredCourseDto(courseDto,true,false);
-        // }else{
-        //     status=Constant.COURSE_CANCELLED;
-        //     courseDto=getRequiredCourseDto(courseDto,false,true);
-        // }
         
         for(RegistrationDto registrationDto:allAcceptedRegistration){
             AllotResponse allotResponse=getAllotedResponse(registrationDto,courseDto,status);                                                         
             allotResponses.add(allotResponse);
 
-            // String emailAddress=registrationDto.getEmailAddress();
-            // EmployeeDto employeeDto=employeeRepository.findById(emailAddress).get();
             EmployeeDto employeeDto = getEmployeeDetails(registrationDto.getEmailAddress());
             employees.add(employeeDto);
         }
@@ -94,16 +82,4 @@ public class CourseServiceImpl implements CourseService{
         courseDto.getCourseId(), courseDto.getCourseName(), courseDto.getInstructor(),
         courseDto.getDate(), status);
     }
-
-
-    // private CourseDto getRequiredCourseDto(CourseDto courseDto, boolean isAlloted, boolean isCancelled) {
-    //     courseDto.setAllotted(isAlloted);
-    //     courseDto.setCancelled(isCancelled);
-    //     return courseDto;
-    // }
-
-    // private boolean isValidAllotation(CourseDto courseDto,long totalEmployee) {
-    //     return (courseDto.isCancelled()==false && courseDto.getMinEmployee()<=totalEmployee)?true:false;
-    // }
-
 }

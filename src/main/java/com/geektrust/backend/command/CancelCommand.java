@@ -25,7 +25,5 @@ public class CancelCommand implements ICommand{
         } catch (Exception e) {
             e.getMessage();
         }
-        
     }
-    
 }

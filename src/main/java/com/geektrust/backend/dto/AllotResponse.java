@@ -23,7 +23,5 @@ public class AllotResponse implements Comparable<AllotResponse>{
     @Override
     public int compareTo(AllotResponse allotResponse) {
         return this.regId.compareTo(allotResponse.regId);
-    }
-
-    
+    } 
 }

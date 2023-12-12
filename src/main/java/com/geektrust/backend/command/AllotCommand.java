@@ -29,12 +29,5 @@ public class AllotCommand implements ICommand{
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
-        
-        
     }
-
-    
-
-    
 }

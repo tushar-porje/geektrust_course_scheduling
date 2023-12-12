@@ -21,13 +21,11 @@ public class RegistrationServiceImpl implements RegistrationSevice{
     private final EmployeeRepository employeeRepository;
     private final RegistrationRepository registrationRepository;
 
-
     public RegistrationServiceImpl(CourseRepository courseRepository,EmployeeRepository employeeRepository, RegistrationRepository registrationRepository) {
         this.courseRepository = courseRepository;
         this.employeeRepository = employeeRepository;
         this.registrationRepository = registrationRepository;
     }
-
 
     @Override
     public String create(RegistrationDto registrationDto) {
@@ -43,9 +41,6 @@ public class RegistrationServiceImpl implements RegistrationSevice{
             registrationDto.setAccepted(true);
             String regId = registrationRepository.save(registrationDto);
             return regId;
-            // }else{
-            //     throw new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE);
-            // }
         }else{
             throw new InvalidInputException(Constant.COURSE_FULL_ERROR_MESSAGE);
         }
@@ -56,16 +51,6 @@ public class RegistrationServiceImpl implements RegistrationSevice{
         String employeeName=getEmployeeName(registrationDto);
         return "REG-COURSE-"+employeeName+"-"+courseName+"";
     }
-    // private String getCourseName(RegistrationDto registrationDto){
-    //     String courseId=registrationDto.getCourseID();
-    //     CourseDto courseDto=courseRepository.findById(courseId).get();
-    //     return courseDto.getCourseName();
-    // }
-
-    // private String getEmployeeName(RegistrationDto registrationDto){
-    //     String emailAddress=registrationDto.getEmailAddress();
-    //     return new Employee(emailAddress).getName();
-    // }
 
     private String getNameFromCourseRepository(String courseId) {
         CourseDto courseDto = courseRepository.findById(courseId).orElseThrow(() -> new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE));
@@ -99,7 +84,6 @@ public class RegistrationServiceImpl implements RegistrationSevice{
         return (count<max)?true:false;
     }
 
-
     @Override
     public String cancelRegistration(String RegId) throws InvalidInputException , RegistrationCancelException{
         RegistrationDto registrationDto=registrationRepository.findById(RegId).orElseThrow(()-> new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE));
@@ -112,6 +96,4 @@ public class RegistrationServiceImpl implements RegistrationSevice{
             throw new RegistrationCancelException(Constant.CANCEL_REJECTED_MESSAGE);
         }
     }
-
-    
 }

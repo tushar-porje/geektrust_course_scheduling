@@ -8,11 +8,9 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     private final EmployeeRepository employeeRepository;
 
-    
     public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
     }
-
 
     @Override
     public EmployeeDto getEmployee(String emailId) throws Exception {

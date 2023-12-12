@@ -34,5 +34,4 @@ public class RegisterCommand implements ICommand{
         RegistrationDto registrationDto=new RegistrationDto(tokens.get(1),tokens.get(2));
         return registrationDto;
     }
-    
 }
