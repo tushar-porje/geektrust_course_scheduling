@@ -23,7 +23,7 @@ public class CancelCommand implements ICommand{
                 System.out.println(regid+" "+Constant.CANCEL_ACCEPTED_MESSAGE);
             }
         } catch (Exception e) {
-            e.getMessage();
+            System.out.println(e.getMessage());            
         }
     }
 }
