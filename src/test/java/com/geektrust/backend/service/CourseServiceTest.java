@@ -36,7 +36,7 @@ public class CourseServiceTest {
     CourseServiceImpl courseService;
     
     @BeforeEach
-    void init(){
+    void setup(){
         courseDto1=new CourseDto("JAVA", "JAMES", "15062022", 1, 2, false, false, new ArrayList<>());
         courseDtoWithId=new CourseDto("OFFERING-JAVA-JAMES","JAVA", "JAMES", "15062022", 1, 2, false, false, new ArrayList<>());
     }
