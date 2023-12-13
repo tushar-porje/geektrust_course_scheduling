@@ -57,7 +57,7 @@ public class AddCourseCommandTest {
 
     @Test
     @DisplayName("calling addCourseCommand method should return with courseId")
-    void addCourseCommandShouldReturnCourseId(){
+    void addCourseCommandShouldReturnCourseId() {
         //arrrange
         String expectedCourseId="OFFERING-"+courseName+"-"+instructor+"";
         when(courseServiceMock.createCourse(any(CourseDto.class))).thenReturn(expectedCourseId);

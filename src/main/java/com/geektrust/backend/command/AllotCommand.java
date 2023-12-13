@@ -1,5 +1,6 @@
 package com.geektrust.backend.command;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.geektrust.backend.dto.AllotResponse;
@@ -19,7 +20,7 @@ public class AllotCommand implements ICommand{
     public void execute(List<String> tokens) {
         try {
             if(tokens.size()==Constant.EXPECTED_ARGS_ALLOT){
-                List<AllotResponse> allotResponses = courseService.allot(tokens.get(1)).stream().sorted().collect(Collectors.toList());
+                List<AllotResponse> allotResponses = courseService.allot(tokens.get(1)).stream().sorted(Comparator.comparing(AllotResponse::getEmailId)).collect(Collectors.toList());//stream().sorted().collect(Collectors.toList());
                 for(AllotResponse allotResponse:allotResponses){
                     System.out.println(allotResponse.toString());
                 }
