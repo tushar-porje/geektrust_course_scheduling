@@ -22,7 +22,7 @@ public class RegisterCommand implements ICommand{
             }
             RegistrationDto registrationDto=getRegistrationDto(tokens);
             String registrationId=registrationSevice.create(registrationDto);
-            System.out.println(registrationId+" "+Constant.ACCEPTED_MESSAGE);
+            System.out.println(registrationId+Constant.SPACE+Constant.ACCEPTED_MESSAGE);
             
         } catch (Exception e) {
             System.out.println(e.getMessage());

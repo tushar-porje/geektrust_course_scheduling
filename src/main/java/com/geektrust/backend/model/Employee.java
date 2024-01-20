@@ -12,8 +12,9 @@ public class Employee {
     private final String emailAddress;
 
     public Employee(String emailAddress) {
+        char nameSeperator='@';
         if (!emailAddress.isEmpty() && EmailValidator.validate(emailAddress)) {
-            this.name = emailAddress.substring(0, emailAddress.indexOf('@'));
+            this.name = emailAddress.substring(0, emailAddress.indexOf(nameSeperator));
             this.emailAddress = emailAddress;
         } else {
             throw new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE);

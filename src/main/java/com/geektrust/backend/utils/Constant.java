@@ -14,6 +14,9 @@ public class Constant {
     public static final String REGISTER="REGISTER";
     public static final String ALLOT="ALLOT";
     public static final String CANCEL="CANCEL";
+    public static final String SPACE=" ";
+    public static final String HYPHEN="-";
+
 
 
     public static final int EXPECTED_ARGS_ADD_COURSE = 6;

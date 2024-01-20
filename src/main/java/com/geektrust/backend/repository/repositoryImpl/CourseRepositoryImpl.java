@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import com.geektrust.backend.dto.CourseDto;
 import com.geektrust.backend.model.Course;
 import com.geektrust.backend.repository.CourseRepository;
+import com.geektrust.backend.utils.Constant;
 
 public class CourseRepositoryImpl implements CourseRepository{
 
@@ -22,7 +23,8 @@ public class CourseRepositoryImpl implements CourseRepository{
 
     @Override
     public String save(CourseDto courseDto) {
-        courseDto.setCourseId("OFFERING-" + courseDto.getCourseName() + "-" + courseDto.getInstructor()); 
+        String offering="OFFERING-";
+        courseDto.setCourseId(offering + courseDto.getCourseName() + Constant.HYPHEN + courseDto.getInstructor()); 
         Course course=getCourse(courseDto);        
         courseMap.put(course.getCourseId(), course);
         return course.getCourseId();

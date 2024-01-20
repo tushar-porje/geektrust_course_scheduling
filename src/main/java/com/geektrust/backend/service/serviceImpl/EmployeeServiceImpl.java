@@ -14,7 +14,8 @@ public class EmployeeServiceImpl implements EmployeeService{
 
     @Override
     public EmployeeDto getEmployee(String emailId) throws Exception {
-        return employeeRepository.findById(emailId).orElseThrow(()->new Exception("Employee with "+emailId+" not exists"));
+        String errorMessage="Employee with "+emailId+" not exists";
+        return employeeRepository.findById(emailId).orElseThrow(()->new Exception(errorMessage));
     }
     
 }

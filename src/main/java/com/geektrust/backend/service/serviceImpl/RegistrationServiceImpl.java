@@ -47,9 +47,11 @@ public class RegistrationServiceImpl implements RegistrationSevice{
     }
     
     private String getRegistrationId(RegistrationDto registrationDto) {
+        String regCourse="REG-COURSE-";
+
         String courseName=getCourseName(registrationDto);
         String employeeName=getEmployeeName(registrationDto);
-        return "REG-COURSE-"+employeeName+"-"+courseName+"";
+        return regCourse+employeeName+Constant.HYPHEN+courseName;
     }
 
     private String getNameFromCourseRepository(String courseId) {

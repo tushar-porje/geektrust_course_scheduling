@@ -20,7 +20,7 @@ public class CancelCommand implements ICommand{
                 throw new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE);
             }else{
                 String regid=registrationSevice.cancelRegistration(tokens.get(1));
-                System.out.println(regid+" "+Constant.CANCEL_ACCEPTED_MESSAGE);
+                System.out.println(regid+Constant.SPACE+Constant.CANCEL_ACCEPTED_MESSAGE);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());            

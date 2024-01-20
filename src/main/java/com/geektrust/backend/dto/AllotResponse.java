@@ -2,6 +2,7 @@ package com.geektrust.backend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import com.geektrust.backend.utils.Constant;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +19,6 @@ public class AllotResponse{
     //<course-registration-id> <email-id> <course-offering-id> <course-name> <instructor> <date-in-ddmmyyyy> <status>
     @Override
     public String toString() {
-        return ""+regId+" "+emailId+" "+courseId+" "+courseName+" "+instructor+" "+date+" "+status+"";
+        return ""+regId+Constant.SPACE+emailId+Constant.SPACE+courseId+Constant.SPACE+courseName+Constant.SPACE+instructor+Constant.SPACE+date+Constant.SPACE+status+"";
     } 
 }
