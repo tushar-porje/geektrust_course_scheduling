@@ -11,11 +11,11 @@ import com.geektrust.backend.model.Employee;
 import com.geektrust.backend.repository.CourseRepository;
 import com.geektrust.backend.repository.EmployeeRepository;
 import com.geektrust.backend.repository.RegistrationRepository;
-import com.geektrust.backend.service.RegistrationSevice;
+import com.geektrust.backend.service.RegistrationService;
 import com.geektrust.backend.utils.Constant;
 import com.geektrust.backend.utils.EmailValidator;
 
-public class RegistrationServiceImpl implements RegistrationSevice{
+public class RegistrationServiceImpl implements RegistrationService{
 
     private final CourseRepository courseRepository;
     private final EmployeeRepository employeeRepository;

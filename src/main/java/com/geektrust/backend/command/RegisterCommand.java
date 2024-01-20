@@ -3,14 +3,14 @@ package com.geektrust.backend.command;
 import java.util.List;
 import com.geektrust.backend.dto.RegistrationDto;
 import com.geektrust.backend.exception.InvalidInputException;
-import com.geektrust.backend.service.RegistrationSevice;
+import com.geektrust.backend.service.RegistrationService;
 import com.geektrust.backend.utils.Constant;
 
 public class RegisterCommand implements ICommand{
 
-    private final RegistrationSevice registrationSevice;
+    private final RegistrationService registrationSevice;
 
-    public RegisterCommand(RegistrationSevice registrationSevice) {
+    public RegisterCommand(RegistrationService registrationSevice) {
         this.registrationSevice = registrationSevice;
     }
 

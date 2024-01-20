@@ -2,14 +2,14 @@ package com.geektrust.backend.command;
 
 import java.util.List;
 import com.geektrust.backend.exception.InvalidInputException;
-import com.geektrust.backend.service.RegistrationSevice;
+import com.geektrust.backend.service.RegistrationService;
 import com.geektrust.backend.utils.Constant;
 
 public class CancelCommand implements ICommand{
 
-    private final RegistrationSevice registrationSevice;
+    private final RegistrationService registrationSevice;
 
-    public CancelCommand(RegistrationSevice registrationSevice) {
+    public CancelCommand(RegistrationService registrationSevice) {
         this.registrationSevice = registrationSevice;
     }
 

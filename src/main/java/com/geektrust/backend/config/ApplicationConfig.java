@@ -12,7 +12,7 @@ import com.geektrust.backend.repository.repositoryImpl.CourseRepositoryImpl;
 import com.geektrust.backend.repository.repositoryImpl.EmployeeRepositoryImpl;
 import com.geektrust.backend.repository.repositoryImpl.RegistrationRepositoryImpl;
 import com.geektrust.backend.service.CourseService;
-import com.geektrust.backend.service.RegistrationSevice;
+import com.geektrust.backend.service.RegistrationService;
 import com.geektrust.backend.service.serviceImpl.CourseServiceImpl;
 import com.geektrust.backend.service.serviceImpl.RegistrationServiceImpl;
 import com.geektrust.backend.utils.Constant;
@@ -24,7 +24,7 @@ public class ApplicationConfig {
     private final RegistrationRepository registrationRepository=new RegistrationRepositoryImpl();
 
     private final CourseService courseService=new CourseServiceImpl(courseRepository,registrationRepository,employeeRepository);
-    private final RegistrationSevice registrationSevice=new RegistrationServiceImpl(courseRepository, employeeRepository, registrationRepository);
+    private final RegistrationService registrationSevice=new RegistrationServiceImpl(courseRepository, employeeRepository, registrationRepository);
 
     private final AddCourseCommand addCourseCommand=new AddCourseCommand(courseService);
     private final RegisterCommand registerCommand=new RegisterCommand(registrationSevice);
