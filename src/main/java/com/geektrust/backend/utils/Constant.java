@@ -16,6 +16,11 @@ public class Constant {
     public static final String CANCEL="CANCEL";
     public static final String SPACE=" ";
     public static final String HYPHEN="-";
+    public static final String errorMessage="Employee with %s not exists";
+    public static final String REGCOURSE="REG-COURSE-";
+    public static final String OFFERING="OFFERING-";
+    public static final char EMAILSEPERATOR='@';
+
 
 
 

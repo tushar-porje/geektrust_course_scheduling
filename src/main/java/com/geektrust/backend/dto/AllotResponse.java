@@ -19,6 +19,6 @@ public class AllotResponse{
     //<course-registration-id> <email-id> <course-offering-id> <course-name> <instructor> <date-in-ddmmyyyy> <status>
     @Override
     public String toString() {
-        return ""+regId+Constant.SPACE+emailId+Constant.SPACE+courseId+Constant.SPACE+courseName+Constant.SPACE+instructor+Constant.SPACE+date+Constant.SPACE+status+"";
+        return regId+Constant.SPACE+emailId+Constant.SPACE+courseId+Constant.SPACE+courseName+Constant.SPACE+instructor+Constant.SPACE+date+Constant.SPACE+status;
     } 
 }

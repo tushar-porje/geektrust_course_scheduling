@@ -23,8 +23,7 @@ public class CourseRepositoryImpl implements CourseRepository{
 
     @Override
     public String save(CourseDto courseDto) {
-        String offering="OFFERING-";
-        courseDto.setCourseId(offering + courseDto.getCourseName() + Constant.HYPHEN + courseDto.getInstructor()); 
+        courseDto.setCourseId(Constant.OFFERING + courseDto.getCourseName() + Constant.HYPHEN + courseDto.getInstructor()); 
         Course course=getCourse(courseDto);        
         courseMap.put(course.getCourseId(), course);
         return course.getCourseId();
@@ -43,7 +42,7 @@ public class CourseRepositoryImpl implements CourseRepository{
 
     @Override
     public boolean existsById(String id) {
-        return courseMap.containsKey(id);//.entrySet().stream().map(a -> a.getKey()).anyMatch(a->a.contains(id));
+        return courseMap.containsKey(id);
     }
 
     @Override
@@ -71,8 +70,5 @@ public class CourseRepositoryImpl implements CourseRepository{
     public Course getCourse(CourseDto courseDto){
         return new Course(courseDto.getCourseId(), courseDto.getCourseName(), courseDto.getInstructor(), courseDto.getDate(),
         courseDto.getMinEmployee(), courseDto.getMaxEmployee(), courseDto.isAllotted(), courseDto.isCancelled(),courseDto.getRegisteredEmployees());
-    }
-
-   
-    
+    } 
 }
