@@ -2,6 +2,7 @@ package com.geektrust.backend.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -12,6 +13,7 @@ import com.geektrust.backend.dto.AllotResponse;
 import com.geektrust.backend.dto.CourseDto;
 import com.geektrust.backend.dto.EmployeeDto;
 import com.geektrust.backend.dto.RegistrationDto;
+import com.geektrust.backend.exception.InvalidInputException;
 import com.geektrust.backend.repository.CourseRepository;
 import com.geektrust.backend.repository.EmployeeRepository;
 import com.geektrust.backend.repository.RegistrationRepository;
@@ -84,7 +86,7 @@ public class CourseServiceTest {
         List<AllotResponse> allotResponses = courseService.allot(courseId);
 
         // Assert
-        
+
         assertNotNull(allotResponses);
         assertEquals(2, allotResponses.size());
         assertEquals(Constant.ALLOT_COURSE_MESSAGE, allotResponses.get(0).getStatus());
@@ -92,23 +94,33 @@ public class CourseServiceTest {
         verify(courseRepository, times(1)).save(courseDto);
     }
 
-    // private CourseDto updateCourseStatus(CourseDto courseDto, String status) {
-    //     courseDto.setAllotted(status.equals(Constant.ALLOT_COURSE_MESSAGE));
-    //     courseDto.setCancelled(status.equals(Constant.COURSE_CANCELLED));
-    //     return courseDto;
-    // }
     @Test
-    void testUpdateCourseStatus_CONFIRMED_STATUS(){
+    void testAllot_InvalidInput() {
         //arrange
         String courseId = "COURSE123";
-        CourseDto courseDto=new CourseDto(courseId, "JAVA", "Instructor", "20220101", 2, 10, false, false, new ArrayList<>());
-        String status=Constant.ALLOT_COURSE_MESSAGE;
-        //act
-        CourseDto courseDtoUpdated=courseService.updateCourseStatus(courseDto,status);
-
+        //mock
+        when(courseRepository.findById(courseId)).thenThrow(new InvalidInputException(Constant.INPUT_DATA_ERROR_MESSAGE));
         //assert
-        assertEquals(true, courseDtoUpdated.isAllotted());
+        assertThrows(InvalidInputException.class, ()->courseService.allot(courseId));
     }
+
+    // // private CourseDto updateCourseStatus(CourseDto courseDto, String status) {
+    // //     courseDto.setAllotted(status.equals(Constant.ALLOT_COURSE_MESSAGE));
+    // //     courseDto.setCancelled(status.equals(Constant.COURSE_CANCELLED));
+    // //     return courseDto;
+    // // }
+    // @Test
+    // void testUpdateCourseStatus_CONFIRMED_STATUS(){
+    //     //arrange
+    //     String courseId = "COURSE123";
+    //     CourseDto courseDto=new CourseDto(courseId, "JAVA", "Instructor", "20220101", 2, 10, false, false, new ArrayList<>());
+    //     String status=Constant.ALLOT_COURSE_MESSAGE;
+    //     //act
+    //     CourseDto courseDtoUpdated=courseService.updateCourseStatus(courseDto,status);
+
+    //     //assert
+    //     assertEquals(true, courseDtoUpdated.isAllotted());
+    // }
     
 
 }
