@@ -73,10 +73,7 @@ public class RegistrationServiceTest {
 
         // Assert
         assertThrows(InvalidInputException.class, ()->registrationService.create(registrationDto));
-        // assertNotNull(registrationId);
         assertFalse(registrationDto.isAccepted());
-        // assertEquals("REG123", registrationId);
-        // verify(registrationRepository, times(1)).save(registrationDto);
     }
 
     @Test

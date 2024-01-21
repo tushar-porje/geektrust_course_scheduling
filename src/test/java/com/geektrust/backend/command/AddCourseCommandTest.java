@@ -14,7 +14,6 @@ import com.geektrust.backend.dto.CourseDto;
 import com.geektrust.backend.service.CourseService;
 import com.geektrust.backend.utils.Constant;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
