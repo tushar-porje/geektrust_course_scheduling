@@ -84,6 +84,7 @@ public class CourseServiceTest {
         List<AllotResponse> allotResponses = courseService.allot(courseId);
 
         // Assert
+        
         assertNotNull(allotResponses);
         assertEquals(2, allotResponses.size());
         assertEquals(Constant.ALLOT_COURSE_MESSAGE, allotResponses.get(0).getStatus());
