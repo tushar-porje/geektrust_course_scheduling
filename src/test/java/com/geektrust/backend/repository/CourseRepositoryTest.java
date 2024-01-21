@@ -79,6 +79,13 @@ public class CourseRepositoryTest {
     }
 
     @Test
+    public void method1() throws Exception{
+        // Arrange
+        // Act   
+        // Assert
+        assertTrue(true);
+    }
+    @Test
     void delete_shouldRemoveCourse() {
         CourseDto courseDto = new CourseDto("Java Basics", "Instructor1", "2024-01-20",
                 5, 20, false, false, new ArrayList<>());
