@@ -103,24 +103,4 @@ public class CourseServiceTest {
         //assert
         assertThrows(InvalidInputException.class, ()->courseService.allot(courseId));
     }
-
-    // // private CourseDto updateCourseStatus(CourseDto courseDto, String status) {
-    // //     courseDto.setAllotted(status.equals(Constant.ALLOT_COURSE_MESSAGE));
-    // //     courseDto.setCancelled(status.equals(Constant.COURSE_CANCELLED));
-    // //     return courseDto;
-    // // }
-    // @Test
-    // void testUpdateCourseStatus_CONFIRMED_STATUS(){
-    //     //arrange
-    //     String courseId = "COURSE123";
-    //     CourseDto courseDto=new CourseDto(courseId, "JAVA", "Instructor", "20220101", 2, 10, false, false, new ArrayList<>());
-    //     String status=Constant.ALLOT_COURSE_MESSAGE;
-    //     //act
-    //     CourseDto courseDtoUpdated=courseService.updateCourseStatus(courseDto,status);
-
-    //     //assert
-    //     assertEquals(true, courseDtoUpdated.isAllotted());
-    // }
-    
-
 }

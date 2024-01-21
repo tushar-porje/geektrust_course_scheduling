@@ -67,7 +67,7 @@ public class CourseServiceImpl implements CourseService{
         }
     }
 
-    public CourseDto updateCourseStatus(CourseDto courseDto, String status) {
+    private CourseDto updateCourseStatus(CourseDto courseDto, String status) {
         courseDto.setAllotted(status.equals(Constant.ALLOT_COURSE_MESSAGE));
         courseDto.setCancelled(status.equals(Constant.COURSE_CANCELLED));
         return courseDto;
