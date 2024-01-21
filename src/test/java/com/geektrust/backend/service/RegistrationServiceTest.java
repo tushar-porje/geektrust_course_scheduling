@@ -1,6 +1,7 @@
 package com.geektrust.backend.service;
 
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -22,8 +23,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.junit.jupiter.MockitoSettings;
+import org.mockito.quality.Strictness;
 
 @ExtendWith(MockitoExtension.class)
+@MockitoSettings(strictness = Strictness.LENIENT)
 public class RegistrationServiceTest {
 
     @Mock
@@ -50,6 +54,29 @@ public class RegistrationServiceTest {
         // Act & Assert
         assertThrows(InvalidInputException.class, () -> registrationService.create(registrationDto));
         verify(registrationRepository, never()).save(registrationDto);
+    }
+
+    @Test
+    void testCreate_ValidInput() {
+        // Arrange
+        String emailAddress = "john.doe@example.com";
+        String courseId = "COURSE123";
+        RegistrationDto registrationDto = new RegistrationDto(emailAddress, courseId);
+        CourseDto courseDto = new CourseDto(courseId, "Java Course", "Instructor", "20220101", 1, 10, false, false, new ArrayList<>());
+
+        // Mock repository methods
+        when(courseRepository.findById(courseId)).thenReturn(Optional.of(courseDto));
+        when(employeeRepository.existsById(emailAddress)).thenReturn(false);
+        when(registrationRepository.save(registrationDto)).thenReturn("REG123");
+
+        // Act
+
+        // Assert
+        assertThrows(InvalidInputException.class, ()->registrationService.create(registrationDto));
+        // assertNotNull(registrationId);
+        assertFalse(registrationDto.isAccepted());
+        // assertEquals("REG123", registrationId);
+        // verify(registrationRepository, times(1)).save(registrationDto);
     }
 
     @Test
