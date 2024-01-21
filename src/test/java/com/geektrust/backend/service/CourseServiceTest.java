@@ -94,6 +94,7 @@ public class CourseServiceTest {
         verify(courseRepository, times(1)).save(courseDto);
     }
 
+    
     @Test
     void testAllot_InvalidInput() {
         //arrange
