@@ -32,7 +32,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 public class CourseServiceTest {
 
     private CourseDto courseDto1;
-    private CourseDto courseDtoWithId;
 
     @Mock
     CourseRepository courseRepository;
@@ -48,7 +47,6 @@ public class CourseServiceTest {
     
     @BeforeEach
     void setup(){
-        courseDtoWithId=new CourseDto("OFFERING-JAVA-JAMES","JAVA", "JAMES", "15062022", 1, 2, false, false, new ArrayList<>());
     }
 
     //String createCourse(CourseDto course);
