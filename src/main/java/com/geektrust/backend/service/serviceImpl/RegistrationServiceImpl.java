@@ -49,7 +49,7 @@ public class RegistrationServiceImpl implements RegistrationService{
     private String getRegistrationId(RegistrationDto registrationDto) {
         String courseName=getCourseName(registrationDto);
         String employeeName=getEmployeeName(registrationDto);
-        return Constant.REGCOURSE+employeeName+Constant.HYPHEN+courseName;
+        return Constant.REGCOURSE+employeeName+Constant.HYPHEN+courseName;//REG-COURSE-JONE-JAVA
     }
 
     private String getNameFromCourseRepository(String courseId) {

@@ -1,99 +1,133 @@
-// package com.geektrust.backend.service;
+package com.geektrust.backend.service;
 
-// import static org.junit.jupiter.api.Assertions.assertEquals;
-// import static org.junit.jupiter.api.Assertions.assertThrows;
-// import static org.mockito.ArgumentMatchers.any;
-// import static org.mockito.Mockito.mock;
-// import static org.mockito.Mockito.times;
-// import static org.mockito.Mockito.verify;
-// import static org.mockito.Mockito.verifyNoInteractions;
-// import static org.mockito.Mockito.when;
-// import java.util.ArrayList;
-// import java.util.Optional;
-// import com.geektrust.backend.dto.CourseDto;
-// import com.geektrust.backend.dto.EmployeeDto;
-// import com.geektrust.backend.dto.RegistrationDto;
-// import com.geektrust.backend.exception.CourseAlreadyAllotedException;
-// import com.geektrust.backend.exception.InvalidInputException;
-// import com.geektrust.backend.repository.CourseRepository;
-// import com.geektrust.backend.repository.EmployeeRepository;
-// import com.geektrust.backend.repository.RegistrationRepository;
-// import com.geektrust.backend.service.serviceImpl.RegistrationServiceImpl;
-// import com.geektrust.backend.utils.EmailValidator;
-// import org.junit.jupiter.api.BeforeEach;
-// import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import java.util.ArrayList;
+import java.util.Optional;
+import com.geektrust.backend.dto.CourseDto;
+import com.geektrust.backend.dto.RegistrationDto;
+import com.geektrust.backend.exception.CourseAlreadyAllotedException;
+import com.geektrust.backend.exception.InvalidInputException;
+import com.geektrust.backend.exception.RegistrationCancelException;
+import com.geektrust.backend.repository.CourseRepository;
+import com.geektrust.backend.repository.EmployeeRepository;
+import com.geektrust.backend.repository.RegistrationRepository;
+import com.geektrust.backend.service.serviceImpl.RegistrationServiceImpl;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-// public class RegistrationServiceTest {
-    
-//     private CourseRepository courseRepository;
-//     private EmployeeRepository employeeRepository;
-//     private RegistrationRepository registrationRepository;
-//     private RegistrationServiceImpl registrationService;
+@ExtendWith(MockitoExtension.class)
+public class RegistrationServiceTest {
 
-//     @BeforeEach
-//     void setUp() {
-//         courseRepository = mock(CourseRepository.class);
-//         employeeRepository = mock(EmployeeRepository.class);
-//         registrationRepository = mock(RegistrationRepository.class);
-//         registrationService = new RegistrationServiceImpl(courseRepository, employeeRepository, registrationRepository);
-//     }
+    @Mock
+    private CourseRepository courseRepository;
 
-//     @Test
-//     void testCreateRegistration_ValidInput() {
-//         // Arrange
-//         String emailAddress = "john.doe@example.com";
-//         String courseId = "COURSE123";
-//         RegistrationDto registrationDto = new RegistrationDto(emailAddress, courseId);
+    @Mock
+    private EmployeeRepository employeeRepository;
 
-//         CourseDto courseDto = new CourseDto("COURSE123", "Java Course", "Instructor", "20220101", 1, 10, false, false, new ArrayList<>());
+    @Mock
+    private RegistrationRepository registrationRepository;
 
-//         // when(EmailValidator.validate(emailAddress)).thenReturn(true);
-//         when(courseRepository.findById(courseId)).thenReturn(Optional.of(courseDto));
-//         when(employeeRepository.existsById(emailAddress)).thenReturn(false);
-//         when(employeeRepository.save(any(EmployeeDto.class))).thenReturn("john.doe@example.com");
-//         when(registrationRepository.save(any(RegistrationDto.class))).thenReturn("REG123");
+    @InjectMocks
+    private RegistrationServiceImpl registrationService;
 
-//         // Act
-//         String registrationId = registrationService.create(registrationDto);
+    @BeforeEach
+    void setUp() {
+    }
 
-//         // Assert
-//         assertEquals("REG123", registrationId);
-//         verify(courseRepository, times(1)).findById(courseId);
-//         verify(employeeRepository, times(1)).existsById(emailAddress);
-//         verify(employeeRepository, times(1)).save(any(EmployeeDto.class));
-//         verify(registrationRepository, times(1)).save(any(RegistrationDto.class));
-//     }
+    // @Test
+    // void testCreate_ValidInput() {
+    //     // Arrange
+    //     String emailAddress = "JOHN@GMAIL.COM";
+    //     String courseId = "OFFERING-JAVA-JOHN";//OFFERING-JAVA-JOHN
+    //     RegistrationDto registrationDto = new RegistrationDto(emailAddress, courseId);
+    //     CourseDto courseDto = new CourseDto(courseId, "JAVA", "JOHN", "20220101", 1, 10, false, false, new ArrayList<>());
 
-//     @Test
-//     void testCreateRegistration_InvalidEmailAddress() {
-//         // Arrange
-//         RegistrationDto registrationDto = new RegistrationDto("invalid-email", "COURSE123");
+    //     // Mock repository methods
+    //     when(courseRepository.findById(courseId)).thenReturn(Optional.of(courseDto));
+    //     when(employeeRepository.existsById(emailAddress)).thenReturn(false);
+    //     when(registrationRepository.save(registrationDto)).thenReturn("REG-COURSE-JOHN-JAVA");//REG-COURSE-JOHN-JAVA
 
-//         // Act & Assert
-//         assertThrows(InvalidInputException.class, () -> registrationService.create(registrationDto));
-//         verify(EmailValidator, times(1)).validate("invalid-email");
-//         verifyNoInteractions(courseRepository);
-//         verifyNoInteractions(employeeRepository);
-//         verifyNoInteractions(registrationRepository);
-//     }
+    //     // Act
+    //     String registrationId = registrationService.create(registrationDto);
 
-//     @Test
-//     void testCreateRegistration_CourseAlreadyAlloted() {
-//         // Arrange
-//         String emailAddress = "john.doe@example.com";
-//         String courseId = "COURSE123";
-//         RegistrationDto registrationDto = new RegistrationDto(emailAddress, courseId);
+    //     // Assert
+    //     assertNotNull(registrationId);
+    //     assertTrue(registrationDto.isAccepted());
+    //     assertEquals("REG-COURSE-JOHN-JAVA", registrationId);
+    //     verify(registrationRepository, times(1)).save(registrationDto);
+    // }
 
-//         CourseDto courseDto = new CourseDto("COURSE123", "Java Course", "Instructor", "20220101", 1, 10, true, false, null);
+    @Test
+    void testCreate_InvalidEmailAddress() {
+        // Arrange
+        RegistrationDto registrationDto = new RegistrationDto("invalid-email", "COURSE123");
 
-//         when(EmailValidator.validate(emailAddress)).thenReturn(true);
-//         when(courseRepository.findById(courseId)).thenReturn(Optional.of(courseDto));
+        // Act & Assert
+        assertThrows(InvalidInputException.class, () -> registrationService.create(registrationDto));
+        verify(registrationRepository, never()).save(registrationDto);
+    }
 
-//         // Act & Assert
-//         assertThrows(CourseAlreadyAllotedException.class, () -> registrationService.create(registrationDto));
-//         verify(EmailValidator, times(1)).validate(emailAddress);
-//         verify(courseRepository, times(1)).findById(courseId);
-//         verifyNoInteractions(employeeRepository);
-//         verifyNoInteractions(registrationRepository);
-//     }
-// }
+    @Test
+    void testCreate_CourseAlreadyAlloted() {
+        // Arrange
+        String emailAddress = "john.doe@example.com";
+        String courseId = "COURSE123";
+        RegistrationDto registrationDto = new RegistrationDto(emailAddress, courseId);
+        CourseDto courseDto = new CourseDto(courseId, "Java Course", "Instructor", "20220101", 1, 10, true, false, new ArrayList<>());
+
+        // Mock repository methods
+        when(courseRepository.findById(courseId)).thenReturn(Optional.of(courseDto));
+
+        // Act & Assert
+        assertThrows(CourseAlreadyAllotedException.class, () -> registrationService.create(registrationDto));
+        verify(registrationRepository, never()).save(registrationDto);
+    }
+
+    // @Test
+    // void testCancelRegistration_ValidInput() {
+    //     // Arrange
+    //     String regId = "REG123";
+    //     RegistrationDto registrationDto = new RegistrationDto("john.doe@example.com", "COURSE123");
+    //     CourseDto courseDto = new CourseDto("COURSE123", "Java Course", "Instructor", "20220101", 1, 10, false, false, null);
+
+    //     // Mock repository methods
+    //     when(registrationRepository.findById(regId)).thenReturn(Optional.of(registrationDto));
+    //     when(courseRepository.findById(registrationDto.getCourseID())).thenReturn(Optional.of(courseDto));
+
+    //     // Act
+    //     String cancelledRegId = registrationService.cancelRegistration(regId);
+
+    //     // Assert
+    //     assertFalse(registrationDto.isAccepted());
+    //     assertEquals("REG123", cancelledRegId);
+    //     verify(registrationRepository, times(1)).save(registrationDto);
+    // }
+
+    @Test
+    void testCancelRegistration_CourseAllotted() {
+        // Arrange
+        String regId = "REG123";
+        RegistrationDto registrationDto = new RegistrationDto("john.doe@example.com", "COURSE123");
+        CourseDto courseDto = new CourseDto("COURSE123", "Java Course", "Instructor", "20220101", 1, 10, true, false, new ArrayList<>());
+
+        // Mock repository methods
+        when(registrationRepository.findById(regId)).thenReturn(Optional.of(registrationDto));
+        when(courseRepository.findById(registrationDto.getCourseID())).thenReturn(Optional.of(courseDto));
+
+        // Act & Assert
+        assertThrows(RegistrationCancelException.class, () -> registrationService.cancelRegistration(regId));
+        verify(registrationRepository, never()).save(registrationDto);
+    }
+}
